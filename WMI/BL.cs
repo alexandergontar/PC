@@ -23,11 +23,15 @@ namespace WMI
             PC pc = manager.GetInfo("localhost");
             string jsonData = JsonConvert.SerializeObject(pc);
             // Test Deserialization
-            /*PC pc1 = JsonConvert.DeserializeObject<PC>(output);
+            /*PC pc1 = JsonConvert.DeserializeObject<PC>(jsonData);
             foreach (Disk disk in pc1.Disks)
             {
                 Console.WriteLine("{0}   {1}   {2}",
                     disk.DiskName, disk.VolumeSize, disk.FreeSpace);
+            }
+            foreach (string item in pc1.PcItems)
+            {
+                Console.WriteLine(item);
             }*/
             Console.WriteLine("\n ===== JSON data ===== :");
             Console.WriteLine(jsonData);
