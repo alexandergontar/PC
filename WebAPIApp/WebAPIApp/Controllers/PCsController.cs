@@ -33,5 +33,14 @@ namespace WebAPIApp.Controllers
         {
             return await db.PCs.ToListAsync();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PC>> Get(int id)
+        {
+            PC pc = await db.PCs.FirstOrDefaultAsync(x => x.Id == id);
+            if (pc == null)
+                return NotFound();
+            return new ObjectResult(pc);
+        }
     }
 }

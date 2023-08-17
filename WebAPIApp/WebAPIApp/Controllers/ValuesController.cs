@@ -26,7 +26,7 @@ namespace WebAPIApp.Controllers
             }
         }
 
-        //[Produces("application/json")]
+        [Produces("application/json")]
         [FormatFilter]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
