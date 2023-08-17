@@ -13,13 +13,13 @@ namespace WebAPIApp.Controllers
     [Route("api/[controller]")]
     public class PCsController : ControllerBase
     {
-        PCsContext db;
-        public PCsController(PCsContext context)
+        UsersContext db;
+        public PCsController(UsersContext context)
         {
             db = context;
             if (!db.PCs.Any())
             {
-                //db.PCs.Add(new PC { PcItems = "Default", Disks = null, Id =1 });
+                db.PCs.Add(new PC { PcItems = "Default", Disks = null });
                 //db.Users.Add(new User { Name = "Alice", Age = 31 });
                 db.SaveChanges();
             }
