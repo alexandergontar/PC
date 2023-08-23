@@ -64,8 +64,7 @@ namespace WMI.Services
                     compInfo += item;
                 }
                 Console.Write(compInfo);
-                pc.Disks = disks;
-                pc.PcInfo = compInfo;
+                pc.Disks = disks;                
                 pc.PcItems = commonInfo;
                 return pc;
 
@@ -83,8 +82,7 @@ namespace WMI.Services
                     compInfo += item;
                 }
                 Console.Write(compInfo);
-                pc.Disks = disks;
-                pc.PcInfo = compInfo;
+                pc.Disks = disks;                
                 pc.PcItems = commonInfo;
                 return pc;
             }

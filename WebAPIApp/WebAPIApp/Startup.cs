@@ -35,8 +35,9 @@ namespace WebAPIApp
             
              string con = Configuration.GetConnectionString("UsersDatabase");
             Console.WriteLine(con);
-            // устанавливаем контекст данных
+            // устанавливаем контексты данных
             services.AddDbContext<UsersContext>(options => options.UseSqlServer(con));
+           // services.AddDbContext<PCsContext>(options => options.UseSqlServer(con));
 
             services.AddControllers(); // используем контроллеры без представлений
                                        // Register the Swagger generator, defining 1 or more Swagger documents
