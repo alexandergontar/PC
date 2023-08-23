@@ -40,7 +40,26 @@ namespace WebAPIApp.Controllers
             PC pc = await db.PCs.FirstOrDefaultAsync(x => x.Id == id);
             if (pc == null)
                 return NotFound();
+            Console.WriteLine(pc.Disks);
             return new ObjectResult(pc);
+            
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<PC>> Post(PC pc)
+        {
+            if (pc == null)
+            {
+                return BadRequest();
+            }
+            
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            // если ошибок нет, сохраняем в базу данных
+           //db.PCs. pc.Disks
+            db.PCs.Add(pc);
+            await db.SaveChangesAsync();
+            return Ok(pc);
         }
     }
 }
