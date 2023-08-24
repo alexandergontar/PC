@@ -19,6 +19,7 @@ namespace WebAPIApp.Controllers
             db = context;
             if (!db.PCs.Any())
             {
+
                 db.PCs.Add(new PC { PcItems = "Default", Disks = null });
                 //db.Users.Add(new User { Name = "Alice", Age = 31 });
                 db.SaveChanges();
@@ -31,12 +32,16 @@ namespace WebAPIApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PC>>> Get()
         {
-            return await db.PCs.ToListAsync();
+           List<Disk> disks = await db.Disks.ToListAsync();
+           List<PC> pcs = await db.PCs.ToListAsync();
+            //return await db.PCs.ToListAsync();
+            return pcs;
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PC>> Get(int id)
         {
+            List<Disk> disks = await db.Disks.ToListAsync();
             PC pc = await db.PCs.FirstOrDefaultAsync(x => x.Id == id);
             if (pc == null)
                 return NotFound();
