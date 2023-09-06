@@ -52,6 +52,7 @@ namespace WebAPIApp.Controllers
             {
                 return BadRequest();
             }
+           //await Put(user);
             // обработка частных случаев валидации
             if (user.Age == 99)
                 ModelState.AddModelError("Age", "Возраст не должен быть равен 99");

@@ -1,8 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 
-const char* ssid = "MTS8920FT_30F7";
-const char* password = "10737008";
+//const char* ssid = "MTS8920FT_30F7";
+//const char* password = "10737008";
+const char* ssid = "Android666";
+const char* password = "crisismanagement01";
 
 // Domain Name with full URL Path for HTTP POST Request
 const char* server = "http://api.thingspeak.com/update";
@@ -16,12 +18,13 @@ WiFiClient wifiClient;
 
 void setup() {
   Serial.begin(115200);
-
+//WiFi.enableInsecureWEP();
   WiFi.begin(ssid, password);
+  WiFi.mode(WIFI_STA);
   Serial.println("Connecting to WIFI…");
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");
+    Serial.print(WiFi.status());
   }
   Serial.println("");
   Serial.print("IP Address: ");

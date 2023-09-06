@@ -37,7 +37,8 @@ namespace WMI
             Console.WriteLine(jsonData);
 
             Console.WriteLine("\n ===== Post JSON data, waiting for response .... \n");
-            Task<string> result = client.sendPost(jsonData, "https://httpbin.org/post");
+           // Task<string> result = client.sendPost(jsonData, "https://httpbin.org/post");
+            Task<string> result = client.sendPost(jsonData, "https://localhost:44370/api/PCs");
             result.Wait();
             Console.WriteLine(result.Result.ToString());
             Console.ReadKey();
