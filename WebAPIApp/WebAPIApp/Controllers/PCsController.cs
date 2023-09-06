@@ -66,5 +66,18 @@ namespace WebAPIApp.Controllers
             await db.SaveChangesAsync();
             return Ok(pc);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<PC>> Delete(int id)
+        {
+            PC pc = db.PCs.FirstOrDefault(x => x.Id == id);
+            if (pc == null)
+            {
+                return NotFound();
+            }
+            db.PCs.Remove(pc);
+            await db.SaveChangesAsync();
+            return Ok(pc);
+        }
     }
 }
