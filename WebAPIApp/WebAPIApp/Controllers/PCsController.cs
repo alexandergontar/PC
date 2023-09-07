@@ -67,6 +67,37 @@ namespace WebAPIApp.Controllers
             return Ok(pc);
         }
 
+        // PUT api/PCs/
+        [HttpPut]
+        public async Task<ActionResult<PC>> Put(PC pc)
+        {
+            if (pc == null)
+            {
+                return BadRequest();
+            }
+           /* if (!db.PCs.Any(x => x.PcItems == pc.PcItems))
+            {
+                return NotFound();
+            }*/
+
+            PC existingPc = db.PCs.Where(s => s.PcItems == pc.PcItems)
+                  .FirstOrDefault<PC>();
+            if (existingPc != null)
+            {
+                existingPc.Disks = pc.Disks;
+               // existingPc.LastName = s.LastName;
+
+              await  db.SaveChangesAsync();
+            }
+            else
+            {
+                return NotFound();
+            }
+            //db.Update(pc);
+            //await db.SaveChangesAsync();
+            return Ok(pc);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<PC>> Delete(int id)
         {
