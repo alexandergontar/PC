@@ -32,8 +32,8 @@ namespace WebAPIApp.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PC>>> Get()
         {
-           List<Disk> disks = await db.Disks.ToListAsync();
-           List<PC> pcs = await db.PCs.ToListAsync();
+            List<Disk> disks = await db.Disks.ToListAsync();
+            List<PC> pcs = await db.PCs.ToListAsync();
             //return await db.PCs.ToListAsync();
             return pcs;
         }
@@ -47,7 +47,7 @@ namespace WebAPIApp.Controllers
                 return NotFound();
             Console.WriteLine(pc.Disks);
             return new ObjectResult(pc);
-            
+
         }
 
         [HttpPost]
@@ -57,11 +57,11 @@ namespace WebAPIApp.Controllers
             {
                 return BadRequest();
             }
-            
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             // если ошибок нет, сохраняем в базу данных
-           //db.PCs. pc.Disks
+            //db.PCs. pc.Disks
             db.PCs.Add(pc);
             await db.SaveChangesAsync();
             return Ok(pc);
@@ -70,11 +70,19 @@ namespace WebAPIApp.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<PC>> Delete(int id)
         {
-            PC pc = db.PCs.FirstOrDefault(x => x.Id == id);
-            if (pc == null)
-            {
-                return NotFound();
-            }
+            /* PC pc = db.PCs.FirstOrDefault(x => x.Id == id);
+             if (pc == null)
+             {
+                 return NotFound();
+             }
+
+
+             db.PCs.Remove(pc);*/
+
+            PC pc = db.PCs
+             .Where(f => f.Id == id)
+             .Include(f => f.Disks)
+             .FirstOrDefault();
             db.PCs.Remove(pc);
             await db.SaveChangesAsync();
             return Ok(pc);
