@@ -13,5 +13,6 @@ namespace WebAPIApp.Models
         public string DiskName { get; set; }
         public UInt64 VolumeSize { get; set; }
         public UInt64 FreeSpace { get; set; }
+        //public PC PC { get; set; }
     }
 }

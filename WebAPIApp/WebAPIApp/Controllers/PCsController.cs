@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebAPIApp.Models;
-
+using System.Collections;
 
 namespace WebAPIApp.Controllers
 {
@@ -60,9 +60,17 @@ namespace WebAPIApp.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            // если ошибок нет, сохраняем в базу данных
-            //db.PCs. pc.Disks
-            db.PCs.Add(pc);
+            // ---- Delete if exists
+            PC existingPc = db.PCs.Where(s => s.PcItems == pc.PcItems)
+                  .FirstOrDefault<PC>();
+            if (existingPc != null) 
+            {
+                await Delete(existingPc.Id);
+            }
+            // --- End of Delete
+                // если ошибок нет, сохраняем в базу данных
+                //db.PCs. pc.Disks
+                db.PCs.Add(pc);
             await db.SaveChangesAsync();
             return Ok(pc);
         }
@@ -84,6 +92,8 @@ namespace WebAPIApp.Controllers
                   .FirstOrDefault<PC>();
             if (existingPc != null)
             {
+                //await Delete(1);
+                //existingPc.Id
                 existingPc.Disks = pc.Disks;
                // existingPc.LastName = s.LastName;
 
@@ -114,8 +124,18 @@ namespace WebAPIApp.Controllers
              .Where(f => f.Id == id)
              .Include(f => f.Disks)
              .FirstOrDefault();
+            //set Disks to 'Deleted'
+            List<Disk> disks = pc.Disks;
+            foreach (Disk disk in disks) 
+            {
+                //disk.DiskName = "Deleted";
+                db.Disks.Remove(disk);
+            }
+            // end of 'Deleted'
+            
+            //db.Disks.RemoveRange();
             db.PCs.Remove(pc);
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(); 
             return Ok(pc);
         }
     }

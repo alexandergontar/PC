@@ -16,5 +16,13 @@ namespace WebAPIApp.Models
         {
             Database.EnsureCreated();
         }
+
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Disk>()
+                .HasOne(p => p.PC)
+                .WithMany(t => t.Disks)
+                .OnDelete(DeleteBehavior.Cascade);
+        }*/
     }
 }
