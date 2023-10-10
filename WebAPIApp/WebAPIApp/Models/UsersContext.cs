@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIApp.Models
 {
-    public class UsersContext: DbContext
+    public class UsersContext : DbContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<PC> PCs { get; set; }

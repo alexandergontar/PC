@@ -12,13 +12,13 @@ namespace WMI
         private IClient client;
         private IPcmanager manager;
 
-        public BL(IClient client, IPcmanager manager) 
+        public BL(IClient client, IPcmanager manager)
         {
             this.client = client;
             this.manager = manager;
         }
 
-        public void Run() 
+        public void Run()
         {
             PC pc = manager.GetInfo("localhost");
             string jsonData = JsonConvert.SerializeObject(pc);
@@ -37,11 +37,20 @@ namespace WMI
             Console.WriteLine(jsonData);
 
             Console.WriteLine("\n ===== Post JSON data, waiting for response .... \n");
-           // Task<string> result = client.sendPost(jsonData, "https://httpbin.org/post");
-            Task<string> result = client.sendPost(jsonData, "https://localhost:44370/api/PCs");
-            result.Wait();
-            Console.WriteLine(result.Result.ToString());
-            Console.ReadKey();
+            try
+            {
+                // Task<string> result = client.sendPost(jsonData, "https://httpbin.org/post");
+                Task<string> result = client.sendPost(jsonData, "https://localhost:44370/api/PCs");
+                result.Wait(10000);
+                Console.WriteLine(result.Result.ToString());
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadKey();
+            }
+
         }
 
     }

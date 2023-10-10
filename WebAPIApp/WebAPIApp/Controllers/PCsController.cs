@@ -63,14 +63,14 @@ namespace WebAPIApp.Controllers
             // ---- Delete if exists
             PC existingPc = db.PCs.Where(s => s.PcItems == pc.PcItems)
                   .FirstOrDefault<PC>();
-            if (existingPc != null) 
+            if (existingPc != null)
             {
                 await Delete(existingPc.Id);
             }
             // --- End of Delete
-                // если ошибок нет, сохраняем в базу данных
-                //db.PCs. pc.Disks
-                db.PCs.Add(pc);
+            // если ошибок нет, сохраняем в базу данных
+            //db.PCs. pc.Disks
+            db.PCs.Add(pc);
             await db.SaveChangesAsync();
             return Ok(pc);
         }
@@ -83,10 +83,10 @@ namespace WebAPIApp.Controllers
             {
                 return BadRequest();
             }
-           /* if (!db.PCs.Any(x => x.PcItems == pc.PcItems))
-            {
-                return NotFound();
-            }*/
+            /* if (!db.PCs.Any(x => x.PcItems == pc.PcItems))
+             {
+                 return NotFound();
+             }*/
 
             PC existingPc = db.PCs.Where(s => s.PcItems == pc.PcItems)
                   .FirstOrDefault<PC>();
@@ -95,9 +95,9 @@ namespace WebAPIApp.Controllers
                 //await Delete(1);
                 //existingPc.Id
                 existingPc.Disks = pc.Disks;
-               // existingPc.LastName = s.LastName;
+                // existingPc.LastName = s.LastName;
 
-              await  db.SaveChangesAsync();
+                await db.SaveChangesAsync();
             }
             else
             {
@@ -126,16 +126,17 @@ namespace WebAPIApp.Controllers
              .FirstOrDefault();
             //set Disks to 'Deleted'
             List<Disk> disks = pc.Disks;
-            foreach (Disk disk in disks) 
+
+            foreach (Disk disk in disks)
             {
                 //disk.DiskName = "Deleted";
                 db.Disks.Remove(disk);
             }
             // end of 'Deleted'
-            
+
             //db.Disks.RemoveRange();
             db.PCs.Remove(pc);
-            await db.SaveChangesAsync(); 
+            await db.SaveChangesAsync();
             return Ok(pc);
         }
     }
