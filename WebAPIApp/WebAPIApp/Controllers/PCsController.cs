@@ -19,12 +19,10 @@ namespace WebAPIApp.Controllers
             db = context;
             if (!db.PCs.Any())
             {
-
-                db.PCs.Add(new PC { PcItems = "Default", Disks = null });
-                //db.Users.Add(new User { Name = "Alice", Age = 31 });
+                db.PCs.Add(new PC { PcItems = "Default", Disks = null });                
                 db.SaveChanges();
             }
-            //db.SaveChanges();
+            
         }
 
         //[Produces("application/json")]
@@ -33,8 +31,7 @@ namespace WebAPIApp.Controllers
         public async Task<ActionResult<IEnumerable<PC>>> Get()
         {
             List<Disk> disks = await db.Disks.ToListAsync();
-            List<PC> pcs = await db.PCs.ToListAsync();
-            //return await db.PCs.ToListAsync();
+            List<PC> pcs = await db.PCs.ToListAsync();            
             return pcs;
         }
 
@@ -82,59 +79,34 @@ namespace WebAPIApp.Controllers
             if (pc == null)
             {
                 return BadRequest();
-            }
-            /* if (!db.PCs.Any(x => x.PcItems == pc.PcItems))
-             {
-                 return NotFound();
-             }*/
+            }            
 
             PC existingPc = db.PCs.Where(s => s.PcItems == pc.PcItems)
                   .FirstOrDefault<PC>();
             if (existingPc != null)
-            {
-                //await Delete(1);
-                //existingPc.Id
+            {                
                 existingPc.Disks = pc.Disks;
-                // existingPc.LastName = s.LastName;
-
                 await db.SaveChangesAsync();
             }
             else
             {
                 return NotFound();
-            }
-            //db.Update(pc);
-            //await db.SaveChangesAsync();
+            }            
             return Ok(pc);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<PC>> Delete(int id)
         {
-            /* PC pc = db.PCs.FirstOrDefault(x => x.Id == id);
-             if (pc == null)
-             {
-                 return NotFound();
-             }
-
-
-             db.PCs.Remove(pc);*/
-
             PC pc = db.PCs
              .Where(f => f.Id == id)
              .Include(f => f.Disks)
-             .FirstOrDefault();
-            //set Disks to 'Deleted'
+             .FirstOrDefault();            
             List<Disk> disks = pc.Disks;
-
             foreach (Disk disk in disks)
-            {
-                //disk.DiskName = "Deleted";
+            {                
                 db.Disks.Remove(disk);
-            }
-            // end of 'Deleted'
-
-            //db.Disks.RemoveRange();
+            }            
             db.PCs.Remove(pc);
             await db.SaveChangesAsync();
             return Ok(pc);
