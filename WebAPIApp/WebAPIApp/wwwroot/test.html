@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Список компьютеров</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Список компьютеров</h1>
+    <h1 id=ipText></h1>
+    <table class="table table-condensed table-striped  col-md-6">
+        <thead><tr><th>Id</th><th>Описание</th><th>Диски</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        async function getResponse(url) {
+            let headers = {};
+            const response = await fetch(url, {
+                method: "GET",
+                //mode: 'no-cors',
+                //crossorigin: true,
+                headers: { "Accept": "application/json" }
+            });
+
+            if (response.ok === true) { // если HTTP-статус в диапазоне 200-299
+                // получаем тело ответа (см. про этот метод ниже)
+                //console.log(response.body);
+                //alert(response.body);
+                const pcs = await response.json();
+                console.log(pcs);
+                let rows = document.querySelector("tbody");
+                pcs.forEach(pc => {
+                    // добавляем полученные элементы в таблицу
+                    rows.append(row(pc));
+                });
+                //alert(pcs);
+                //document.querySelector("#ipText").innerHTML = JSON.stringify(pcs);
+            } else {
+                alert("Ошибка HTTP: " + response.status);
+            }
+
+
+        }
+
+        getResponse("https://localhost:44370/api/PCs");
+
+        function row(pc) {
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", pc.id);
+
+            const idTd = document.createElement("td");
+            idTd.append(pc.id);
+            tr.append(idTd);
+
+            const nameTd = document.createElement("td");
+            nameTd.append(pc.pcItems);
+            tr.append(nameTd);
+
+            pc.disks.forEach((disk) => {
+                const diskNameTd = document.createElement("td");
+                diskNameTd.append(disk.diskName);
+                const diskSizeTd = document.createElement("td");
+                diskSizeTd.append("Size: " + disk.volumeSize);
+                const diskFreeTd = document.createElement("td");
+                diskFreeTd.append("Free: " + disk.freeSpace);
+                tr.append(diskNameTd);
+                tr.append(diskSizeTd);
+                tr.append(diskFreeTd);
+            });
+            /*const disksTd = document.createElement("td");
+            disksTd.append(pc.disks);
+            tr.append(disksTd);*/
+
+            return tr;
+        }
+
+    </script>
+</body>
+</html>

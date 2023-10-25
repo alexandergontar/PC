@@ -50,10 +50,18 @@ namespace WMI.Services
                 foreach (ManagementObject managementObject in searcher.Get())
                 {
                     Disk disk = new Disk();
-                    disk.DiskName = managementObject["Name"].ToString();
-                    disk.VolumeSize = (UInt64)managementObject["Size"];
-                    disk.FreeSpace = (UInt64)managementObject["FreeSpace"];
+                    try
+                    {
+                    if(managementObject["Name"]!=null) disk.DiskName = managementObject["Name"].ToString();                    
+                    if(managementObject["Size"]!=null) disk.VolumeSize = (UInt64)managementObject["Size"];
+                    if(managementObject["FreeSpace"]!=null) disk.FreeSpace = (UInt64)managementObject["FreeSpace"];
                     disks.Add(disk);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+        
                 }
                 foreach (Disk d in disks)
                 {
