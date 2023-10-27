@@ -7,7 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Список компьютеров</h1>
+    <h1>  Список компьютеров</h1>
     <h1 id=ipText></h1>
     <table class="table table-condensed table-striped  col-md-6">
         <thead><tr><th>Id</th><th>Описание</th><th>Диски</th><th></th></tr></thead>
@@ -44,7 +44,7 @@
 
         }
 
-        getResponse("https://localhost:44370/api/PCs");
+        getResponse("/api/PCs");
 
         function row(pc) {
             const tr = document.createElement("tr");
@@ -65,13 +65,14 @@
                 diskSizeTd.append("Size: " + disk.volumeSize);
                 const diskFreeTd = document.createElement("td");
                 diskFreeTd.append("Free: " + disk.freeSpace);
+                const diskPercentTd = document.createElement("td");
+                diskPercentTd.append("Used %: "+disk.freeSpace / disk.volumeSize * 100);
                 tr.append(diskNameTd);
                 tr.append(diskSizeTd);
                 tr.append(diskFreeTd);
+                tr.append(diskPercentTd);
             });
-            /*const disksTd = document.createElement("td");
-            disksTd.append(pc.disks);
-            tr.append(disksTd);*/
+            
 
             return tr;
         }
